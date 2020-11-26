@@ -20,20 +20,28 @@ namespace TwoWayAccepter.Entities
 
         }
 
-        private string _currentStateName = "Current State:";
+        private string _currentStateName;
 
         public string CurrentStateName
         {
-            get { return _currentStateName; }
+            get { return "Current State: " + _currentStateName; }
             set { _currentStateName = value; NotifyPropertyChanged("CurrentStateName"); }
         }
 
-        private string _currentSymbol = "Current Symbol:";
+        private string _currentSymbol;
 
         public string CurrentSymbol
         {
-            get { return _currentSymbol; }
+            get { return "Current Symbol: " +_currentSymbol; }
             set { _currentSymbol = value; NotifyPropertyChanged("CurrentSymbol"); }
+        }
+
+        private string _processedSymbols;
+
+        public string ProcessedSymbols
+        {
+            get { return "Processed Symbols: " + _processedSymbols; }
+            set { _processedSymbols = value; NotifyPropertyChanged("ProcessedSymbols"); }
         }
 
         private string _possibleNextStates = "Possible Next States:";

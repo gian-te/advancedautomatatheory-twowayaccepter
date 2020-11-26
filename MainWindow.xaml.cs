@@ -31,7 +31,7 @@ namespace TwoWayAccepter
             InitializeComponent();
             Rebind();
             Init();
-           
+
         }
 
         private void Init()
@@ -97,17 +97,75 @@ namespace TwoWayAccepter
 
 
                     EvaluateNextState(symbol);
-
+                    UpdateProcessedSymbolLabel(_viewModel.Omega.Substring(1, i));
+                    HighlightCurrentStateInDatagrid();
+                    UpdateCurrentStateLabel();
+                    UpdateNextPossibleStates();
                     IncrementOrDecrementOmegaIndex();
+                    DisplayAcceptOrRejectMessage();
                     Thread.Sleep(200);
                 }
 
-                DisplayAcceptOrRejectMessage();
+                //DisplayAcceptOrRejectMessage();
 
-                _viewModel.Diagnostics.CurrentStateName = "Current State: " + _viewModel.Diagnostics.CurrentState.StateName;
+                _viewModel.Diagnostics.CurrentStateName = _viewModel.Diagnostics.CurrentState.StateName;
 
                 _viewModel.Playing = false;
             });
+        }
+
+        /// <summary>
+        /// Manual Step
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Button_Click_2(object sender, RoutedEventArgs e)
+        {
+            SetInitialState();
+            if (i >= _viewModel.Omega.Length)
+            {
+                return;
+            }
+
+
+            var letter = _viewModel.Omega[i];
+            var symbol = letter.ToString();
+
+            UpdateCurrentSymbolLabel(symbol);
+
+            UpdateCurrentStateLabel();
+
+            if (IsAccepted() || IsRejected())
+            {
+                return;
+            }
+
+            EvaluateNextState(symbol);
+            UpdateProcessedSymbolLabel(_viewModel.Omega.Substring(1, i));
+            HighlightCurrentStateInDatagrid();
+            UpdateCurrentStateLabel();
+            UpdateNextPossibleStates();
+            IncrementOrDecrementOmegaIndex();
+            DisplayAcceptOrRejectMessage();
+        }
+
+        private void UpdateNextPossibleStates()
+        {
+            _viewModel.Diagnostics.PossibleNextStates = "Possible Next States: ";
+
+            var nextPossibleStates = new List<State>();
+            nextPossibleStates = _viewModel.States.Where(s => s.StateName == _viewModel.Diagnostics.CurrentState.StateName).ToList();
+            
+            for (int j = 0; j < nextPossibleStates.Count; j++)
+            {
+                _viewModel.Diagnostics.PossibleNextStates += nextPossibleStates[j].DestinationState;
+                
+                if (j >= 0 && j < (nextPossibleStates.Count - 1) && !string.IsNullOrEmpty(nextPossibleStates[j].DestinationState))
+                {
+                    _viewModel.Diagnostics.PossibleNextStates += ", ";
+
+                }
+            }
         }
 
         private void HighlightCurrentStateInDatagrid()
@@ -123,7 +181,7 @@ namespace TwoWayAccepter
                     row.MoveFocus(new TraversalRequest(FocusNavigationDirection.Next));
                 });
             }
-            catch 
+            catch
             {
                 // swallow UI exception, if any
             }
@@ -136,7 +194,7 @@ namespace TwoWayAccepter
 
         private void UpdateCurrentStateLabel()
         {
-            _viewModel.Diagnostics.CurrentStateName = "Current State: " + _viewModel.Diagnostics.CurrentState.StateName;
+            _viewModel.Diagnostics.CurrentStateName = _viewModel.Diagnostics.CurrentState.StateName;
         }
 
         private void DisplayAcceptOrRejectMessage()
@@ -155,44 +213,10 @@ namespace TwoWayAccepter
         {
             if (_viewModel.Diagnostics.CurrentState == null)
             {
-                _viewModel.Diagnostics.CurrentState = _viewModel.States.Where(name => name.StateName == txtInitialState.Text).FirstOrDefault();
+                _viewModel.Diagnostics.CurrentState = _viewModel.States.Where(name => name.StateName == _viewModel.InitialState).FirstOrDefault();
             }
         }
 
-
-        /// <summary>
-        /// Manual Step
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Button_Click_2(object sender, RoutedEventArgs e)
-        {
-            SetInitialState();
-            if (i >= _viewModel.Omega.Length)
-            {
-                return;
-            }
-
-            HighlightCurrentStateInDatagrid();
-
-            var letter = _viewModel.Omega[i];
-            var symbol = letter.ToString();
-
-            UpdateCurrentSymbolLabel(symbol);
-
-            UpdateCurrentStateLabel();
-
-            DisplayAcceptOrRejectMessage();
-            if (IsAccepted() || IsRejected())
-            {
-                return;
-            }
-
-           
-
-            EvaluateNextState(symbol);
-            IncrementOrDecrementOmegaIndex();
-        }
 
         private bool IsRejected()
         {
@@ -201,7 +225,12 @@ namespace TwoWayAccepter
 
         private void UpdateCurrentSymbolLabel(string symbol)
         {
-            _viewModel.Diagnostics.CurrentSymbol = "Current Symbol: " + symbol;
+            _viewModel.Diagnostics.CurrentSymbol = symbol;
+        }
+
+        private void UpdateProcessedSymbolLabel(string subStr)
+        {
+            _viewModel.Diagnostics.ProcessedSymbols = subStr;
         }
 
         private void IncrementOrDecrementOmegaIndex()
@@ -249,7 +278,7 @@ namespace TwoWayAccepter
         {
             Rebind();
             Init();
-           
+
         }
     }
 }

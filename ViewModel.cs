@@ -69,7 +69,7 @@ namespace TwoWayAccepter
         public string InitialState
         {
             get { return _initialState; }
-            set { _initialState = value; NotifyPropertyChanged("InitialState"); }
+            set { _initialState = value; Diagnostics.CurrentStateName = _initialState; NotifyPropertyChanged("InitialState"); }
         }
 
  

@@ -25,21 +25,29 @@
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
                     <Label Content="Initial State:" HorizontalAlignment="Left" Margin="21,26,0,0" VerticalAlignment="Top"/>
-                    <TextBox x:Name="txtInitialState" Text="{Binding InitialState}" Height="24" Margin="2,26,0,0" TextWrapping="Wrap" Width="222"/>
+                    <TextBox x:Name="txtInitialState" Text="{Binding InitialState, UpdateSourceTrigger=PropertyChanged}" Height="24" Margin="2,26,0,0" TextWrapping="Wrap" Width="222"/>
                 </StackPanel>
+                <!--<RichTextBox x:Name="txtRichTextbox" Height="24" Margin="96,0,0,0">
+                    <FlowDocument>
+                        <Paragraph>
+                            <Run Text="{Binding Omega, UpdateSourceTrigger=PropertyChanged}"/>
+                        </Paragraph>
+                    </FlowDocument>
+                </RichTextBox>-->
             </StackPanel>
         </GroupBox>
         <GroupBox Header="Diagnostics" HorizontalAlignment="Left" Height="203" Margin="10,206,0,0" VerticalAlignment="Top" Width="346">
             <StackPanel>
-                <Label x:Name="lblCurrentState"  Content="{Binding Path=Diagnostics.CurrentStateName,  UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" HorizontalAlignment="Left" Margin="21,26,0,0" VerticalAlignment="Top"/>
-                <Label x:Name="lblCurrentSymbol" Content="{Binding Path=Diagnostics.CurrentSymbol,  UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  HorizontalAlignment="Left" Margin="21,26,0,0" VerticalAlignment="Top"/>
-                <Label x:Name="lblPossibleNextStates" Content="Possible Next States:" HorizontalAlignment="Left" Margin="21,26,0,0" VerticalAlignment="Top"/>
+                <Label x:Name="lblCurrentSymbol" Content="{Binding Path=Diagnostics.CurrentSymbol,  UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  HorizontalAlignment="Left" Margin="21,15,0,0" VerticalAlignment="Top"/>
+                <Label x:Name="lblProcessedSymbols" Content="{Binding Path=Diagnostics.ProcessedSymbols,  UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  HorizontalAlignment="Left" Margin="21,15,0,0" VerticalAlignment="Top"/>
+                <Label x:Name="lblCurrentState"  Content="{Binding Path=Diagnostics.CurrentStateName,  UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" HorizontalAlignment="Left" Margin="21,15,0,0" VerticalAlignment="Top"/>
+                <Label x:Name="lblPossibleNextStates" Content="{Binding Path=Diagnostics.PossibleNextStates,  UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" HorizontalAlignment="Left" Margin="21,15,0,0" VerticalAlignment="Top"/>
                 <!--<TextBlock x:Name="txtLog" Text="{Binding Path=Diagnostics.CurrentSymbol,  UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"> </TextBlock>-->
             </StackPanel>
         </GroupBox>
         <Button Content="Add State" HorizontalAlignment="Left" Margin="38,423,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click"/>
-        <Button Content="Play" IsEnabled="{Binding Stopped}" HorizontalAlignment="Left" Margin="157,423,0,0" VerticalAlignment="Top" Width="83" Click="Button_Click_1" RenderTransformOrigin="1.084,0.15"/>
-        <Button Content="Next" IsEnabled="{Binding Stopped}" HorizontalAlignment="Left" Margin="413,423,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click_2" RenderTransformOrigin="2.267,0.85"/>
+        <Button Content="Play All" IsEnabled="{Binding Stopped}" HorizontalAlignment="Left" Margin="157,423,0,0" VerticalAlignment="Top" Width="83" Click="Button_Click_1" RenderTransformOrigin="1.084,0.15"/>
+        <Button Content="Step Once" IsEnabled="{Binding Stopped}" HorizontalAlignment="Left" Margin="413,423,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click_2" RenderTransformOrigin="2.267,0.85"/>
         <Button Content="Stop" IsEnabled="{Binding Playing}" HorizontalAlignment="Left" Margin="291,423,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click_3" RenderTransformOrigin="0.289,1.193"/>
         <Button Content="Clear Fields" HorizontalAlignment="Left" Margin="660,423,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click_4" RenderTransformOrigin="0.289,1.193"/>
         <Button Content="Reset" IsEnabled="{Binding Stopped}" HorizontalAlignment="Left" Margin="543,423,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click_5" RenderTransformOrigin="2.267,0.85"/>
