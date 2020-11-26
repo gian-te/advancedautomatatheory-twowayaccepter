@@ -49,6 +49,7 @@ namespace TwoWayAccepter
 
             _viewModel.Omega = "#aaabbbb#";
             _viewModel.InitialState = "1";
+            _viewModel.Diagnostics.CurrentSymbol = _viewModel.Omega[0].ToString();
         }
 
         private void Rebind()
@@ -127,7 +128,6 @@ namespace TwoWayAccepter
                 return;
             }
 
-
             var letter = _viewModel.Omega[i];
             var symbol = letter.ToString();
 
@@ -163,7 +163,6 @@ namespace TwoWayAccepter
                 if (j >= 0 && j < (nextPossibleStates.Count - 1) && !string.IsNullOrEmpty(nextPossibleStates[j].DestinationState))
                 {
                     _viewModel.Diagnostics.PossibleNextStates += ", ";
-
                 }
             }
         }

@@ -21,7 +21,7 @@
             <StackPanel Margin="0,0,-2,-13">
                 <StackPanel Orientation="Horizontal">
                     <Label Content="Omega:" HorizontalAlignment="Left" Margin="21,26,0,0" VerticalAlignment="Top"/>
-                    <TextBox x:Name="txtOmega" Text="{Binding Omega}" Height="24" Margin="21,26,0,0" TextWrapping="Wrap" Width="222"/>
+                    <TextBox x:Name="txtOmega" Text="{Binding Omega, UpdateSourceTrigger=PropertyChanged}" Height="24" Margin="21,26,0,0" TextWrapping="Wrap" Width="222"/>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
                     <Label Content="Initial State:" HorizontalAlignment="Left" Margin="21,26,0,0" VerticalAlignment="Top"/>

@@ -61,7 +61,7 @@ namespace TwoWayAccepter
         public string Omega
         {
             get { return _omega; }
-            set { _omega = value; NotifyPropertyChanged("Omega"); }
+            set { _omega = value; Diagnostics.CurrentSymbol = !string.IsNullOrEmpty(_omega) ? _omega[0].ToString() : ""; NotifyPropertyChanged("Omega"); }
         }
 
         private string _initialState;
