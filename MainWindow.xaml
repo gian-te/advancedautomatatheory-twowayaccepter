@@ -21,11 +21,11 @@
             <StackPanel Margin="0,0,-2,-13">
                 <StackPanel Orientation="Horizontal">
                     <Label Content="Omega:" HorizontalAlignment="Left" Margin="21,26,0,0" VerticalAlignment="Top"/>
-                    <TextBox x:Name="txtOmega" Text="{Binding Omega, UpdateSourceTrigger=PropertyChanged}" Height="24" Margin="21,26,0,0" TextWrapping="Wrap" Width="222"/>
+                    <TextBox x:Name="txtOmega" Text="{Binding Omega, UpdateSourceTrigger=PropertyChanged}" Height="37" Margin="21,26,0,0" TextWrapping="Wrap" Width="222"/>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
                     <Label Content="Initial State:" HorizontalAlignment="Left" Margin="21,26,0,0" VerticalAlignment="Top"/>
-                    <TextBox x:Name="txtInitialState" Text="{Binding InitialState, UpdateSourceTrigger=PropertyChanged}" Height="24" Margin="2,26,0,0" TextWrapping="Wrap" Width="222"/>
+                    <TextBox x:Name="txtInitialState" Text="{Binding InitialState, UpdateSourceTrigger=PropertyChanged}" TextChanged="txtInitialState_TextChanged" Height="24" Margin="2,26,0,0" TextWrapping="Wrap" Width="222"/>
                 </StackPanel>
                 <!--<RichTextBox x:Name="txtRichTextbox" Height="24" Margin="96,0,0,0">
                     <FlowDocument>
@@ -50,7 +50,7 @@
         <Button Content="Step Once" IsEnabled="{Binding Stopped}" HorizontalAlignment="Left" Margin="413,423,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click_2" RenderTransformOrigin="2.267,0.85"/>
         <Button Content="Stop" IsEnabled="{Binding Playing}" HorizontalAlignment="Left" Margin="291,423,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click_3" RenderTransformOrigin="0.289,1.193"/>
         <Button Content="Clear Fields" HorizontalAlignment="Left" Margin="660,423,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click_4" RenderTransformOrigin="0.289,1.193"/>
-        <Button Content="Reset" IsEnabled="{Binding Stopped}" HorizontalAlignment="Left" Margin="543,423,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click_5" RenderTransformOrigin="2.267,0.85"/>
+        <Button Content="Reset" IsEnabled="{Binding Stopped}" HorizontalAlignment="Left" Margin="543,423,0,0" VerticalAlignment="Top" Width="75" Click="Reset" RenderTransformOrigin="2.267,0.85"/>
 
     </Grid>
 </Window>

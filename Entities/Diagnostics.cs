@@ -20,7 +20,7 @@ namespace TwoWayAccepter.Entities
 
         }
 
-        private string _currentStateName;
+        public string _currentStateName;
 
         public string CurrentStateName
         {

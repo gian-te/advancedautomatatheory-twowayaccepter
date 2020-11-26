@@ -14,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 using TwoWayAccepter.Entities;
 
 namespace TwoWayAccepter
@@ -32,6 +33,10 @@ namespace TwoWayAccepter
             Rebind();
             Init();
 
+            Dispatcher.Invoke(() =>
+            {
+                Task.Run(() => { Thread.Sleep(1000); HighlightCurrentStateInDatagrid(); }) ; 
+            });
         }
 
         private void Init()
@@ -61,7 +66,7 @@ namespace TwoWayAccepter
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            _viewModel.States.Add(new State() { StateName = "b", TransitionSymbol = "1", DestinationState = "a" });
+            _viewModel.States.Add(new State() { StateName = "*state name*", TransitionSymbol = "*symbol*", DestinationState = "*destination*", ScanDirection="*direction*"});
         }
 
         /// <summary>
@@ -71,6 +76,29 @@ namespace TwoWayAccepter
         /// <param name="e"></param>
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
+            #region Validation
+            if (string.IsNullOrEmpty(_viewModel.Omega))
+            {
+                MessageBox.Show("Input string cannot be blank. Enter a value for Omega.");
+                return;
+            }
+            if (_viewModel.States.Count == 0)
+            {
+                MessageBox.Show("States cannot be empty. Add some states.");
+                return;
+            }
+            if (string.IsNullOrEmpty(_viewModel.InitialState))
+            {
+                MessageBox.Show("Initial state cannot be blank. Enter an initial state.");
+                return;
+            }
+            if (_viewModel.States.Where(state => !(state.StateName.ToUpper() == "ACCEPT" || state.StateName.ToUpper() == "REJECT") && (string.IsNullOrEmpty(state.DestinationState) || string.IsNullOrEmpty(state.ScanDirection) || string.IsNullOrEmpty(state.StateName) || string.IsNullOrEmpty(state.TransitionSymbol)) ).ToList().Count > 0)
+            {
+                MessageBox.Show("Some states have unexpected empty values.");
+                return;
+            }
+            #endregion
+
             _viewModel.Playing = true;
             SetInitialState();
 
@@ -99,15 +127,14 @@ namespace TwoWayAccepter
 
                     EvaluateNextState(symbol);
                     UpdateProcessedSymbolLabel(_viewModel.Omega.Substring(1, i));
-                    HighlightCurrentStateInDatagrid();
                     UpdateCurrentStateLabel();
+                    HighlightCurrentStateInDatagrid();
                     UpdateNextPossibleStates();
                     IncrementOrDecrementOmegaIndex();
                     DisplayAcceptOrRejectMessage();
                     Thread.Sleep(200);
                 }
 
-                //DisplayAcceptOrRejectMessage();
 
                 _viewModel.Diagnostics.CurrentStateName = _viewModel.Diagnostics.CurrentState.StateName;
 
@@ -122,6 +149,29 @@ namespace TwoWayAccepter
         /// <param name="e"></param>
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
+            #region Validation
+            if (string.IsNullOrEmpty(_viewModel.Omega))
+            {
+                MessageBox.Show("Input string cannot be blank. Enter a value for Omega.");
+                return;
+            }
+            if (_viewModel.States.Count == 0)
+            {
+                MessageBox.Show("States cannot be empty. Add some states.");
+                return;
+            }
+            if (string.IsNullOrEmpty(_viewModel.InitialState))
+            {
+                MessageBox.Show("Initial state cannot be blank. Enter an initial state.");
+                return;
+            }
+            if (_viewModel.States.Where(state => !(state.StateName.ToUpper() == "ACCEPT" || state.StateName.ToUpper() == "REJECT") && (string.IsNullOrEmpty(state.DestinationState) || string.IsNullOrEmpty(state.ScanDirection) || string.IsNullOrEmpty(state.StateName) || string.IsNullOrEmpty(state.TransitionSymbol))).ToList().Count > 0)
+            {
+                MessageBox.Show("Some states have unexpected empty values.");
+                return;
+            }
+            #endregion
+
             SetInitialState();
             if (i >= _viewModel.Omega.Length)
             {
@@ -142,11 +192,13 @@ namespace TwoWayAccepter
 
             EvaluateNextState(symbol);
             UpdateProcessedSymbolLabel(_viewModel.Omega.Substring(1, i));
-            HighlightCurrentStateInDatagrid();
             UpdateCurrentStateLabel();
+            HighlightCurrentStateInDatagrid();
             UpdateNextPossibleStates();
             IncrementOrDecrementOmegaIndex();
             DisplayAcceptOrRejectMessage();
+
+            _viewModel.Diagnostics.CurrentStateName = _viewModel.Diagnostics.CurrentState.StateName;
         }
 
         private void UpdateNextPossibleStates()
@@ -173,10 +225,19 @@ namespace TwoWayAccepter
             {
                 Dispatcher.Invoke(() =>
                 {
-                    var stateObj = _viewModel.States.Where(name => name.StateName == _viewModel.Diagnostics.CurrentState.StateName).FirstOrDefault();
+                    
+                    var stateObj = _viewModel.States.Where(name => name.StateName.ToUpper() == _viewModel.Diagnostics._currentStateName.ToUpper()).FirstOrDefault();
+                    if (stateObj == null)
+                    {
+                        return;
+                    }
                     var index = _viewModel.States.IndexOf(stateObj);
                     dgStates.SelectedIndex = index;
                     DataGridRow row = (DataGridRow)dgStates.ItemContainerGenerator.ContainerFromIndex(index);
+                    if (row == null)
+                    {
+                        return;
+                    }
                     row.MoveFocus(new TraversalRequest(FocusNavigationDirection.Next));
                 });
             }
@@ -186,14 +247,22 @@ namespace TwoWayAccepter
             }
         }
 
-        private bool IsAccepted()
-        {
-            return _viewModel.Diagnostics.CurrentState.StateName == "ACCEPT";
-        }
+      
 
         private void UpdateCurrentStateLabel()
         {
-            _viewModel.Diagnostics.CurrentStateName = _viewModel.Diagnostics.CurrentState.StateName;
+            try
+            {
+                if (_viewModel.Diagnostics.CurrentState != null)
+                {
+                    _viewModel.Diagnostics.CurrentStateName = _viewModel.Diagnostics.CurrentState.StateName;
+
+                }
+            }
+            catch 
+            {
+
+            }
         }
 
         private void DisplayAcceptOrRejectMessage()
@@ -216,10 +285,14 @@ namespace TwoWayAccepter
             }
         }
 
+        private bool IsAccepted()
+        {
+            return _viewModel.Diagnostics.CurrentState.StateName.ToUpper() == "ACCEPT";
+        }
 
         private bool IsRejected()
         {
-            return _viewModel.Diagnostics.CurrentState.StateName == "REJECT";
+            return _viewModel.Diagnostics.CurrentState.StateName.ToUpper() == "REJECT";
         }
 
         private void UpdateCurrentSymbolLabel(string symbol)
@@ -236,11 +309,15 @@ namespace TwoWayAccepter
         {
             try
             {
-                if (_viewModel.Diagnostics.CurrentState.ScanDirection.ToLower() == "right")
+                if (string.IsNullOrEmpty(_viewModel.Diagnostics.CurrentState.ScanDirection))
+                {
+                    return;
+                }
+                if (_viewModel.Diagnostics.CurrentState.ScanDirection.ToUpper() == "RIGHT")
                 {
                     i++;
                 }
-                else if (_viewModel.Diagnostics.CurrentState.ScanDirection.ToLower() == "left")
+                else if (_viewModel.Diagnostics.CurrentState.ScanDirection.ToUpper() == "LEFT")
                 {
                     i--;
                 }
@@ -273,16 +350,25 @@ namespace TwoWayAccepter
             Rebind();
         }
 
-        private void Button_Click_5(object sender, RoutedEventArgs e)
+        private void Reset(object sender, RoutedEventArgs e)
         {
             i = 1;
-            _viewModel.Diagnostics.CurrentSymbol = _viewModel.Omega[0].ToString();
+            _viewModel.Diagnostics.CurrentSymbol = !string.IsNullOrEmpty(_viewModel.Omega) ? _viewModel.Omega[0].ToString() : "";
             _viewModel.Diagnostics.CurrentState = null;
             _viewModel.Diagnostics.ProcessedSymbols = "";
+            _viewModel.InitialState = _viewModel.InitialState;
             SetInitialState();
             UpdateCurrentStateLabel();
             UpdateProcessedSymbolLabel("");
+            HighlightCurrentStateInDatagrid();
+            //UpdateNextPossibleStates();
+        }
 
+        private void txtInitialState_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            SetInitialState();
+            HighlightCurrentStateInDatagrid();
+            txtInitialState.Focus();
         }
     }
 }
