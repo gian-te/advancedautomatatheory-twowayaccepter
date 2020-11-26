@@ -275,8 +275,13 @@ namespace TwoWayAccepter
 
         private void Button_Click_5(object sender, RoutedEventArgs e)
         {
-            Rebind();
-            Init();
+            i = 1;
+            _viewModel.Diagnostics.CurrentSymbol = _viewModel.Omega[0].ToString();
+            _viewModel.Diagnostics.CurrentState = null;
+            _viewModel.Diagnostics.ProcessedSymbols = "";
+            SetInitialState();
+            UpdateCurrentStateLabel();
+            UpdateProcessedSymbolLabel("");
 
         }
     }
