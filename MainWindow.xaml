@@ -5,8 +5,44 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TwoWayAccepter"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        
+        Title="Two-Way Accepter" Height="499.091" Width="791.818" WindowStartupLocation="CenterScreen">
+    <Grid Margin="0,0,2,13">
+        <!--https://www.youtube.com/watch?v=zvyQNuuTqks&ab_channel=IAmTimCorey-->
+        <DataGrid x:Name="dgStates" ItemsSource="{Binding Path=States, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True}"  Margin="381,22,0,0" CanUserAddRows="True" CanUserDeleteRows="True" CanUserReorderColumns="False" CanUserSortColumns="False" CanUserResizeColumns="True" Height="385" VerticalAlignment="Top" HorizontalAlignment="Left" Width="387">
+            <!--<DataGrid.Columns>
+                <DataGridTextColumn Header="State Name" Binding="{Binding StateName}"/>
+                <DataGridTextColumn Header="Transition Symbol" Binding="{Binding TransitionSymbol}" />
+                <DataGridTextColumn Header="Destination State" Binding="{Binding DestinationState}" />
+
+            </DataGrid.Columns>-->
+
+        </DataGrid>
+        <GroupBox Header="Input" HorizontalAlignment="Left" Height="173" Margin="10,10,0,0" VerticalAlignment="Top" Width="346">
+            <StackPanel Margin="0,0,-2,-13">
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="Omega:" HorizontalAlignment="Left" Margin="21,26,0,0" VerticalAlignment="Top"/>
+                    <TextBox x:Name="txtOmega" Text="{Binding Omega}" Height="24" Margin="21,26,0,0" TextWrapping="Wrap" Width="222"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="Initial State:" HorizontalAlignment="Left" Margin="21,26,0,0" VerticalAlignment="Top"/>
+                    <TextBox x:Name="txtInitialState" Text="{Binding InitialState}" Height="24" Margin="2,26,0,0" TextWrapping="Wrap" Width="222"/>
+                </StackPanel>
+            </StackPanel>
+        </GroupBox>
+        <GroupBox Header="Diagnostics" HorizontalAlignment="Left" Height="203" Margin="10,206,0,0" VerticalAlignment="Top" Width="346">
+            <StackPanel>
+                <Label x:Name="lblCurrentState"  Content="{Binding Path=Diagnostics.CurrentStateName,  UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" HorizontalAlignment="Left" Margin="21,26,0,0" VerticalAlignment="Top"/>
+                <Label x:Name="lblCurrentSymbol" Content="{Binding Path=Diagnostics.CurrentSymbol,  UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  HorizontalAlignment="Left" Margin="21,26,0,0" VerticalAlignment="Top"/>
+                <Label x:Name="lblPossibleNextStates" Content="Possible Next States:" HorizontalAlignment="Left" Margin="21,26,0,0" VerticalAlignment="Top"/>
+                <!--<TextBlock x:Name="txtLog" Text="{Binding Path=Diagnostics.CurrentSymbol,  UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"> </TextBlock>-->
+            </StackPanel>
+        </GroupBox>
+        <Button Content="Add State" HorizontalAlignment="Left" Margin="38,423,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click"/>
+        <Button Content="Play" IsEnabled="{Binding Stopped}" HorizontalAlignment="Left" Margin="157,423,0,0" VerticalAlignment="Top" Width="83" Click="Button_Click_1" RenderTransformOrigin="1.084,0.15"/>
+        <Button Content="Next" IsEnabled="{Binding Stopped}" HorizontalAlignment="Left" Margin="413,423,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click_2" RenderTransformOrigin="2.267,0.85"/>
+        <Button Content="Stop" IsEnabled="{Binding Playing}" HorizontalAlignment="Left" Margin="291,423,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click_3" RenderTransformOrigin="0.289,1.193"/>
+        <Button Content="Clear Fields" HorizontalAlignment="Left" Margin="660,423,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click_4" RenderTransformOrigin="0.289,1.193"/>
+        <Button Content="Reset" IsEnabled="{Binding Stopped}" HorizontalAlignment="Left" Margin="543,423,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click_5" RenderTransformOrigin="2.267,0.85"/>
+
     </Grid>
 </Window>
