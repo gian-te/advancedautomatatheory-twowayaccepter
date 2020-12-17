@@ -42,18 +42,18 @@ namespace TwoWayAccepter
         private void Init()
         {
             // test case 1
-            _viewModel.States.Add(new State() { StateName = "1", TransitionSymbol = "a", DestinationState = "2", ScanDirection = "Right" });
-            _viewModel.States.Add(new State() { StateName = "1", TransitionSymbol = "b", DestinationState = "3", ScanDirection = "Right" });
-            _viewModel.States.Add(new State() { StateName = "2", TransitionSymbol = "a", DestinationState = "1", ScanDirection = "Right" });
-            _viewModel.States.Add(new State() { StateName = "2", TransitionSymbol = "b", DestinationState = "4", ScanDirection = "Right" });
-            _viewModel.States.Add(new State() { StateName = "2", TransitionSymbol = "#", DestinationState = "ACCEPT", ScanDirection = "Right" });
-            _viewModel.States.Add(new State() { StateName = "3", TransitionSymbol = "b", DestinationState = "1", ScanDirection = "Right" });
-            _viewModel.States.Add(new State() { StateName = "3", TransitionSymbol = "a", DestinationState = "4", ScanDirection = "Right" });
-            _viewModel.States.Add(new State() { StateName = "4", TransitionSymbol = "a", DestinationState = "3", ScanDirection = "Right" });
-            _viewModel.States.Add(new State() { StateName = "4", TransitionSymbol = "b", DestinationState = "2", ScanDirection = "Right" });
-            _viewModel.States.Add(new State() { StateName = "ACCEPT", TransitionSymbol = "", DestinationState = "", ScanDirection = "" });
-            _viewModel.Omega = "#aaabbbb#";
-            _viewModel.InitialState = "1";
+            //_viewModel.States.Add(new State() { StateName = "1", TransitionSymbol = "a", DestinationState = "2", ScanDirection = "Right" });
+            //_viewModel.States.Add(new State() { StateName = "1", TransitionSymbol = "b", DestinationState = "3", ScanDirection = "Right" });
+            //_viewModel.States.Add(new State() { StateName = "2", TransitionSymbol = "a", DestinationState = "1", ScanDirection = "Right" });
+            //_viewModel.States.Add(new State() { StateName = "2", TransitionSymbol = "b", DestinationState = "4", ScanDirection = "Right" });
+            //_viewModel.States.Add(new State() { StateName = "2", TransitionSymbol = "#", DestinationState = "ACCEPT", ScanDirection = "Right" });
+            //_viewModel.States.Add(new State() { StateName = "3", TransitionSymbol = "b", DestinationState = "1", ScanDirection = "Right" });
+            //_viewModel.States.Add(new State() { StateName = "3", TransitionSymbol = "a", DestinationState = "4", ScanDirection = "Right" });
+            //_viewModel.States.Add(new State() { StateName = "4", TransitionSymbol = "a", DestinationState = "3", ScanDirection = "Right" });
+            //_viewModel.States.Add(new State() { StateName = "4", TransitionSymbol = "b", DestinationState = "2", ScanDirection = "Right" });
+            //_viewModel.States.Add(new State() { StateName = "ACCEPT", TransitionSymbol = "", DestinationState = "", ScanDirection = "" });
+            //_viewModel.Omega = "#aaabbbb#";
+            //_viewModel.InitialState = "1";
 
 
             // test case 2
@@ -67,6 +67,27 @@ namespace TwoWayAccepter
             //_viewModel.States.Add(new State() { StateName = "REJECT", TransitionSymbol = "", DestinationState = "", ScanDirection = "" });
             //_viewModel.Omega = "#aaaabbb#";
             //_viewModel.InitialState = "1";
+
+            // test case 3
+            _viewModel.States.Add(new State() { StateName = "1", TransitionSymbol = "a", DestinationState = "2", ScanDirection = "Right" });
+            _viewModel.States.Add(new State() { StateName = "1", TransitionSymbol = "b", DestinationState = "1", ScanDirection = "Right" });
+            _viewModel.States.Add(new State() { StateName = "1", TransitionSymbol = "#", DestinationState = "3", ScanDirection = "Right" });
+            _viewModel.States.Add(new State() { StateName = "2", TransitionSymbol = "a", DestinationState = "1", ScanDirection = "Right" });
+            _viewModel.States.Add(new State() { StateName = "2", TransitionSymbol = "b", DestinationState = "2", ScanDirection = "Right" });
+            _viewModel.States.Add(new State() { StateName = "3", TransitionSymbol = "a", DestinationState = "3", ScanDirection = "Left" });
+            _viewModel.States.Add(new State() { StateName = "3", TransitionSymbol = "b", DestinationState = "3", ScanDirection = "Left" });
+            _viewModel.States.Add(new State() { StateName = "3", TransitionSymbol = "#", DestinationState = "4", ScanDirection = "Left" });
+            _viewModel.States.Add(new State() { StateName = "4", TransitionSymbol = "a", DestinationState = "4", ScanDirection = "Right" });
+            _viewModel.States.Add(new State() { StateName = "4", TransitionSymbol = "b", DestinationState = "5", ScanDirection = "Right" });
+            _viewModel.States.Add(new State() { StateName = "5", TransitionSymbol = "a", DestinationState = "5", ScanDirection = "Right" });
+            _viewModel.States.Add(new State() { StateName = "5", TransitionSymbol = "b", DestinationState = "4", ScanDirection = "Right" });
+            _viewModel.States.Add(new State() { StateName = "5", TransitionSymbol = "#", DestinationState = "ACCEPT", ScanDirection = "Right" });
+            _viewModel.States.Add(new State() { StateName = "ACCEPT", TransitionSymbol = "", DestinationState = "", ScanDirection = "" });
+            _viewModel.States.Add(new State() { StateName = "REJECT", TransitionSymbol = "", DestinationState = "", ScanDirection = "" });
+
+
+            _viewModel.Omega = "#abaabba#";
+            _viewModel.InitialState = "1";
             _viewModel.Diagnostics.CurrentSymbol = _viewModel.Omega[0].ToString();
         }
 
